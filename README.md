@@ -78,4 +78,4 @@ Krishi Connect is open-source and licensed under the MIT License.
 
 ## 📧 Contact
 
-For queries or suggestions, feel free to reach out at [[your-email@example.com](mailto:your-email@example.com)].
+For queries or suggestions, feel free to reach out at [[LinkedIn](https://www.linkedin.com/in/devkaushalprakash/)].
