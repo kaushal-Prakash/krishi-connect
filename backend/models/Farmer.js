@@ -9,7 +9,6 @@ const farmerSchema = new mongoose.Schema(
     phNumber: { type: String, required: true, unique: true },
     address: { type: mongoose.Schema.Types.ObjectId, ref: "Address" },
     kccId: { type: String, required: true, unique: true },
-    username: { type: String, required: true, unique: true },
     approved: { type: Boolean, default: false },
   },
   { timestamps: true }
