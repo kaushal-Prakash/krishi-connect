@@ -1,5 +1,5 @@
 import Product from "../models/Product.js";
-import { uploadOnCloudinary } from "../service/cloudinary.js";
+import { deleteImagesFromCloud, uploadOnCloudinary } from "../service/cloudinary.js";
 import { getUser } from "../service/userAuth.js";
 
 const generateUniqueProductId = async () => {
@@ -93,7 +93,7 @@ const getFarmerProducts = async (req, res) => {
 const getProductById = async (req, res) => {
   try {
     const id = req.body.id;
-    const product = await Product.findOne({productId:id});
+    const product = await Product.findOne({ productId: id });
 
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
@@ -107,14 +107,50 @@ const getProductById = async (req, res) => {
 };
 
 const updateProduct = async (req, res) => {
-  try {
-    const id = req.params.id;
-  } catch (error) {
-    console.error("❌ Error in updateProduct:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-};
+    try {
+      const { productId, name, description, price, stock, category, manufacturedDate } = req.body;
+  
+      if (!productId || !name || !price || !stock || !category || !manufacturedDate) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
+  
+      const product = await Product.findOne({productId : productId});
+      if (!product) {
+        return res.status(404).json({ message: "Product not found" });
+      }
+  
+      const response = await deleteImagesFromCloud(product.images);
+      if (!response.success) {
+        return res.status(500).json({ message: "Failed to delete old images" });
+        }
+        
 
+  
+      let newImages = [];
+      if (req.files && req.files.length > 0) {
+        for (const file of req.files) {
+          const result = await uploadOnCloudinary(file.path);
+          newImages.push(result);
+        }
+      }
+  
+      product.name = name;
+      product.description = description || product.description;
+      product.price = price;
+      product.stock = stock;
+      product.category = category;
+      product.manufacturedDate = manufacturedDate;
+      product.images = newImages.length > 0 ? newImages : product.images;
+  
+      await product.save();
+  
+      res.json({ message: "Product updated successfully", product });
+    } catch (error) {
+      console.error("❌ Error in updateProduct:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
+  
 export {
   addProduct,
   getAllProducts,

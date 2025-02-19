@@ -49,4 +49,21 @@ const uploadOnCloudinary = async (localFilePath) => {
   }
 };
 
-export { uploadOnCloudinary };
+//delete file from cloudinary
+const deleteImagesFromCloud = async (publicIds) => {
+  try {
+    if (!publicIds || publicIds.length === 0) {
+      return { success: false, message: "No images to delete" };
+    }
+    const res = await cloudinary.api.delete_resources(publicIds).then(result => console.log(result));
+
+    console.log(res);
+    return { success: true, message: "Images deleted successfully" };
+  } catch (error) {
+    console.error("❌ Error deleting images:", error);
+    return { success: false, message: "Image deletion failed" };
+  }
+};
+
+
+export { uploadOnCloudinary, deleteImagesFromCloud };
