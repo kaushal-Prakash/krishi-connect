@@ -19,23 +19,11 @@ const generateUniqueProductId = async () => {
 
 const addProduct = async (req, res) => {
   try {
-    const {
-      name,
-      description,
-      price,
-      stock,
-      category,
-      manufacturedDate,
-    } = req.body;
+    const { name, description, price, stock, category, manufacturedDate } =
+      req.body;
 
     // Check if required fields are provided
-    if (
-      !name ||
-      !price ||
-      !stock ||
-      !category ||
-      !manufacturedDate
-    ) {
+    if (!name || !price || !stock || !category || !manufacturedDate) {
       return res.status(400).json({ message: "Missing required fields" });
     }
 
@@ -49,9 +37,9 @@ const addProduct = async (req, res) => {
           imageUrls.push(cloudinaryUrl);
         }
       }
-      }
-      
-      const farmerId = await getUser(req.cookies?.token).id;
+    }
+
+    const farmerId = await getUser(req.cookies?.token).id;
 
     const newProduct = new Product({
       productId,
@@ -86,20 +74,51 @@ const getAllProducts = async (req, res) => {
   }
 };
 
-
 const getFarmerProducts = async (req, res) => {
-    try {
-        const userId = getUser(req.cookies?.token).id;
-        const products = await Product.find({ farmerId: userId });
-        
-        if (!products) {
-            return res.status(404).json({ message: "No products found" });
-        }
+  try {
+    const userId = getUser(req.cookies?.token).id;
+    const products = await Product.find({ farmerId: userId });
 
-        return res.status(200).json({ products });
-    } catch (error) {
-        console.log("Error in getting farmer products : ", error);
-        return res.status(500).json({ message: "Internal Server Error" });
+    if (!products) {
+      return res.status(404).json({ message: "No products found" });
     }
-}
-export { addProduct, getAllProducts , getFarmerProducts};
+
+    return res.status(200).json({ products });
+  } catch (error) {
+    console.log("Error in getting farmer products : ", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+const getProductById = async (req, res) => {
+  try {
+    const id = req.body.id;
+    const product = await Product.findOne({productId:id});
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    return res.status(200).json({ product });
+  } catch (error) {
+    console.error("Error in fetching product by id : ", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+const updateProduct = async (req, res) => {
+  try {
+    const id = req.params.id;
+  } catch (error) {
+    console.error("❌ Error in updateProduct:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export {
+  addProduct,
+  getAllProducts,
+  getFarmerProducts,
+  getProductById,
+  updateProduct,
+};
