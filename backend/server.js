@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import connectDB from "./connectDB.js";
 import userRoutes from "./routes/userRoutes.js";
 import farmerRoutes from "./routes/farmerRoutes.js";
+import storeRoutes from "./routes/storeRoutes.js";
 import cookieParser from "cookie-parser";
 
 dotenv.config();
@@ -19,7 +20,8 @@ app.use(cookieParser());
 const PORT = process.env.PORT || 5000;
 
 app.use("/users", userRoutes);
-app.use("/farmers",farmerRoutes)
+app.use("/farmers", farmerRoutes);
+app.use("/store", storeRoutes);
 
 app.get("/", (req, res) => {
     res.send("Backend is running...");
