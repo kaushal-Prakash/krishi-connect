@@ -116,4 +116,49 @@ const getFarmerProfile = async (req, res) => {
   }
 };
 
-export { handleFarmerSignup, handleFarmerLogin, getFarmerProfile, farmerLogout };
+const getApprovedFarmers = async (req, res) => {
+  try {
+    const farmers = await Farmer.find({ approved: true });
+    if (!farmers) {
+      return res.status(404).json({ message: "No approved farmers found" });
+    }
+    return res.status(200).json({ farmers });
+  } catch (error) {
+    console.log("Error fetching verified farmers : ", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
+const getNotApprovedFarmers = async (req, res) => {
+  try {
+    const farmers = await Farmer.find({ approved: false });
+    if (!farmers) {
+      return res.status(404).json({ message: "No approved farmers found" });
+    }
+    return res.status(200).json({ farmers });
+  } catch (error) {
+    console.log("Error fetching verified farmers : ", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
+const approveFarmers = async (req, res) => {
+  try {
+    const farmer = await Farmer.findOne({ email: req.body.email }); // admin will send email
+    if (!farmer) {
+      return res.status(404).json({message : "Farmer not found"})
+    }
+
+    if (farmer.approved) {
+      return res.status(400).json({ message: "Farmer already approved" });
+    }
+    farmer.approved = true;
+    await farmer.save();
+    return res.status(200).json({ message: "Farmer approved!" });
+  } catch (error) {
+    console.log("Error in approving farmer : ", error);
+    return res.status(500).json({message: "Internal server error"});
+  }
+}
+
+export { handleFarmerSignup, handleFarmerLogin, getFarmerProfile, farmerLogout ,getApprovedFarmers, getNotApprovedFarmers,approveFarmers};
