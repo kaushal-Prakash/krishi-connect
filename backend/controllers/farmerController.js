@@ -1,6 +1,8 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import Farmer from "../models/Farmer.js";
+import Product from "../models/Product.js";
+import Order from "../models/Order.js"
 
 const handleFarmerSignup = async (req, res) => {
   try {
@@ -198,6 +200,37 @@ const getAllFarmersUsername = async (req, res) => {
   } catch (error) {
     console.log("Error in getching farmer usernames : ", error);
     return res.status(500).json({message : "Internal server error"})
+  }
+}
+
+const getFarmerSales = async (req, res) => {
+  try {
+    const farmerId = req.params;
+    const farmerProducts = await Product.find({ farmerId }).select("_id");
+
+		if (!farmerProducts.length) {
+			return res
+				.status(404)
+				.json({ message: "No products found for this farmer" });
+		}
+
+		const productIds = farmerProducts.map((product) => product._id);
+
+		const orders = await Order.find({ "items.product": { $in: productIds } });
+
+		let totalSales = 0;
+		orders.forEach((order) => {
+			order.items.forEach((item) => {
+				if (productIds.includes(item.product.toString())) {
+					totalSales += item.quantity * item.product.price;
+				}
+			});
+		});
+
+		res.status(200).json({ farmerId, totalSales });
+  } catch (error) {
+    console.log("Error fetching farmer sales : ", error);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 }
 
