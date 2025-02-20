@@ -4,16 +4,20 @@ import Farmer from "../models/Farmer.js";
 
 const handleFarmerSignup = async (req, res) => {
   try {
-    const { firstName, lastName, email, password, phNumber, kccId } = req.body;
+    const { firstName, lastName, email, password, phNumber, kccId,username } = req.body;
 
-    if (!firstName || !lastName || !email || !password || !phNumber || !kccId) {
+    if (!firstName || !lastName || !email || !password || !phNumber || !kccId || !username) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    const existingfarmer = await Farmer.findOne({ email });
-    if (existingfarmer) {
-      return res.status(400).json({ message: "Email already exists" });
-    }
+    const existingFarmer = await Farmer.findOne({
+			$or: [{ email }, { username }, { kccId }],
+		});
+		if (existingFarmer) {
+			return res
+				.status(400)
+				.json({ message: "Email, KCC ID, or Username already exists" });
+		}
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
@@ -23,6 +27,7 @@ const handleFarmerSignup = async (req, res) => {
       email,
       password: hashedPassword,
       phNumber,
+      username,
       kccId,
     });
 
@@ -31,7 +36,7 @@ const handleFarmerSignup = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { email: newFarmer.email, id: newFarmer._id },
+      { username: newFarmer.username, id: newFarmer._id },
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
@@ -47,15 +52,15 @@ const handleFarmerSignup = async (req, res) => {
 
 const handleFarmerLogin = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
 
-    if (!email || !password) {
+    if (!username || !password) {
       return res
         .status(400)
-        .json({ message: "Email and password are required" });
+        .json({ message: "Username and password are required" });
     }
 
-    const farmer = await Farmer.findOne({ email });
+    const farmer = await Farmer.findOne({ username });
     if (!farmer) {
       return res.status(404).json({ message: "farmer not found" });
     }
@@ -66,7 +71,7 @@ const handleFarmerLogin = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { email: farmer.email, id: farmer._id },
+      { username: farmer.username, id: farmer._id },
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
@@ -108,7 +113,7 @@ const getFarmerProfile = async (req, res) => {
     }
 
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    const farmer = await Farmer.findById(decodedToken.id).select("-password");
+    const farmer = await Farmer.findById(decodedToken.username).select("-password");
 
     if (!farmer) {
       return res.status(404).json({ message: "farmer not found" });
@@ -149,7 +154,11 @@ const getNotApprovedFarmers = async (req, res) => {
 
 const approveFarmers = async (req, res) => {
   try {
-    const farmer = await Farmer.findOne({ email: req.body.email }); // admin will send email
+    const { username } = req.body;
+    if (!username) {
+      return res.status(400).json({message : "Fill all credentials"})
+    }
+    const farmer = await Farmer.findOne({ username }); // admin will send email
     if (!farmer) {
       return res.status(404).json({ message: "Farmer not found" });
     }
@@ -179,6 +188,19 @@ const getAllFarmers = async (req, res) => {
   }
 };
 
+const getAllFarmersUsername = async (req, res) => {
+  try {
+    const farmer = await Farmer.find({}, "username");
+    if (!farmer) {
+      return res.status(404).json({ message: "Farmers not found" });
+    }
+    return res.status(200).json({ farmer });
+  } catch (error) {
+    console.log("Error in getching farmer usernames : ", error);
+    return res.status(500).json({message : "Internal server error"})
+  }
+}
+
 export {
   handleFarmerSignup,
   handleFarmerLogin,
@@ -188,4 +210,5 @@ export {
   getNotApprovedFarmers,
   approveFarmers,
   getAllFarmers,
+  getAllFarmersUsername
 };
