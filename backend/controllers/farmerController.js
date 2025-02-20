@@ -50,7 +50,9 @@ const handleFarmerLogin = async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(400).json({ message: "Email and password are required" });
+      return res
+        .status(400)
+        .json({ message: "Email and password are required" });
     }
 
     const farmer = await Farmer.findOne({ email });
@@ -78,28 +80,31 @@ const handleFarmerLogin = async (req, res) => {
   }
 };
 
-const farmerLogout = async (req,res) => {
+const farmerLogout = async (req, res) => {
   try {
     const token = req.cookies?.token;
-    if(!token){
-      return res.status(401).json({message:"Unauthorized: No token provided"});
+    if (!token) {
+      return res
+        .status(401)
+        .json({ message: "Unauthorized: No token provided" });
     }
 
     res.clearCookie("token");
 
     return res.status(200).json({ message: "farmer logged out successfully" });
-    
   } catch (error) {
-    console.log("Error in farmer logout:",error);
-    res.status(500).json({message:"Internal server error"});
+    console.log("Error in farmer logout:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
-}
+};
 
 const getFarmerProfile = async (req, res) => {
   try {
     const token = req.cookies.token;
     if (!token) {
-      return res.status(401).json({ message: "Unauthorized: No token provided" });
+      return res
+        .status(401)
+        .json({ message: "Unauthorized: No token provided" });
     }
 
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
@@ -127,7 +132,7 @@ const getApprovedFarmers = async (req, res) => {
     console.log("Error fetching verified farmers : ", error);
     return res.status(500).json({ message: "Internal Server Error" });
   }
-}
+};
 
 const getNotApprovedFarmers = async (req, res) => {
   try {
@@ -140,13 +145,13 @@ const getNotApprovedFarmers = async (req, res) => {
     console.log("Error fetching verified farmers : ", error);
     return res.status(500).json({ message: "Internal Server Error" });
   }
-}
+};
 
 const approveFarmers = async (req, res) => {
   try {
     const farmer = await Farmer.findOne({ email: req.body.email }); // admin will send email
     if (!farmer) {
-      return res.status(404).json({message : "Farmer not found"})
+      return res.status(404).json({ message: "Farmer not found" });
     }
 
     if (farmer.approved) {
@@ -157,8 +162,30 @@ const approveFarmers = async (req, res) => {
     return res.status(200).json({ message: "Farmer approved!" });
   } catch (error) {
     console.log("Error in approving farmer : ", error);
-    return res.status(500).json({message: "Internal server error"});
+    return res.status(500).json({ message: "Internal server error" });
   }
-}
+};
 
-export { handleFarmerSignup, handleFarmerLogin, getFarmerProfile, farmerLogout ,getApprovedFarmers, getNotApprovedFarmers,approveFarmers};
+const getAllFarmers = async (req, res) => {
+  try {
+    const farmers = await Farmer.find({});
+    if (!farmers) {
+      return res.status(404).json({ message: "No farmers found" });
+    }
+    return res.status(200).json({ farmers: farmers });
+  } catch (error) {
+    console.log("Error fetching all farmers : ", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export {
+  handleFarmerSignup,
+  handleFarmerLogin,
+  getFarmerProfile,
+  farmerLogout,
+  getApprovedFarmers,
+  getNotApprovedFarmers,
+  approveFarmers,
+  getAllFarmers,
+};
