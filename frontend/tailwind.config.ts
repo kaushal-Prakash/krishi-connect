@@ -1,5 +1,6 @@
 import { type Config } from "tailwindcss";
 import { fontFamily } from "tailwindcss/defaultTheme"; 
+import daisyui from "daisyui";
 
 export default {
   content: [
@@ -13,7 +14,15 @@ export default {
         lato: ["Lato", ...fontFamily.sans],
         poppins: ["Poppins", ...fontFamily.sans], 
       },
+      colors: {
+        "custom-grey": "#B6CBBD",
+        "custom-brown": "#754E1A",
+        "custom-warm": "#CBA35C",
+        "custom-cream": "#F8E1B7"
+      }
     },
   },
-  plugins: [],
+  plugins: [
+    daisyui,
+  ],
 } satisfies Config;
