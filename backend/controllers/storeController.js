@@ -39,7 +39,8 @@ const addProduct = async (req, res) => {
       }
     }
 
-    const farmerId = await getUser(req.cookies?.token).id;
+    const farmer = await getUser(req.cookies?.token);
+    const farmerId = farmer.id;
 
     const newProduct = new Product({
       productId,
@@ -149,7 +150,20 @@ const updateProduct = async (req, res) => {
       console.error("❌ Error in updateProduct:", error);
       res.status(500).json({ message: "Internal server error" });
     }
-  };
+};
+  
+const getAllAvailaibleProducts = async (req, res) => {
+  try {
+    const products = await Product.find({ stock: { $gt: 0 } }).sort({ soldCount: -1 });
+    if (!products) {
+      return res.status(404).json({ message: "No products found" });
+    }
+    return res.status(200).json({products})
+  } catch (error) {
+    console.error("Error fetching available pproducts");
+    return res.status(500).json({message : "Internal server error"})
+  }
+}
   
 export {
   addProduct,
@@ -157,4 +171,5 @@ export {
   getFarmerProducts,
   getProductById,
   updateProduct,
+  getAllAvailaibleProducts,
 };

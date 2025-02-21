@@ -116,19 +116,6 @@ const getUserProfile = async (req, res) => {
   }
 };
 
-const getAllAvailaibleProducts = async (req, res) => {
-  try {
-    const products = await Product.find({ stock: { $gt: 0 } }).sort({ soldCount: -1 });
-    if (!products) {
-      return res.status(404).json({ message: "No products found" });
-    }
-    return res.status(200).json({products})
-  } catch (error) {
-    console.error("Error fetching available pproducts");
-    return res.status(500).json({message : "Internal server error"})
-  }
-}
-
 const getAllFarmerProducts = async (req, res) => {
   try {
     const { id } = req.params;
@@ -143,4 +130,4 @@ const getAllFarmerProducts = async (req, res) => {
   }
 }
 
-export { handleUserSignup, handleUserLogin, getUserProfile,userLogout,getAllAvailaibleProducts,getAllFarmerProducts };
+export { handleUserSignup, handleUserLogin, getUserProfile,userLogout,getAllFarmerProducts  };
