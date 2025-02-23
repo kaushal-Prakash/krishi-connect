@@ -24,6 +24,7 @@ const handleUserSignup = async (req, res) => {
       email,
       password: hashedPassword,
       phNumber,
+      role: "user", // Default role assigned
     });
 
     if (!newUser) {
@@ -31,12 +32,13 @@ const handleUserSignup = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { email: newUser.email, id: newUser._id },
+      { email: newUser.email, id: newUser._id, role: newUser.role },
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
 
-    res.cookie("token", token);
+    res.cookie("token", token, { httpOnly: true });
+    res.cookie("role", newUser.role, { httpOnly: true });
 
     return res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
@@ -64,12 +66,13 @@ const handleUserLogin = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { email: user.email, id: user._id },
+      { email: user.email, id: user._id, role: user.role },
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
 
-    res.cookie("token", token);
+    res.cookie("token", token, { httpOnly: true });
+    res.cookie("role", user.role, { httpOnly: true });
 
     return res.status(200).json({ message: "User logged in successfully" });
   } catch (error) {
@@ -77,6 +80,7 @@ const handleUserLogin = async (req, res) => {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
 
 const userLogout = async (req,res) => {
   try {

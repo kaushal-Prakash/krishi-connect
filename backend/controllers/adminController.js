@@ -16,18 +16,21 @@ const adminLogin = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { email: admin.email, id: admin._id },
+      { email: admin.email, id: admin._id, role: "admin" },
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
 
-    res.cookie("token", token);
+    res.cookie("token", token, { httpOnly: true });
+    res.cookie("role", "admin", { httpOnly: true });
+
     return res.status(200).json({ message: "Login successful" });
   } catch (error) {
     console.log("Error in admin login:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
 
 
 export { adminLogin };

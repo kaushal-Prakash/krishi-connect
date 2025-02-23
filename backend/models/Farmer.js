@@ -11,6 +11,7 @@ const farmerSchema = new mongoose.Schema(
     username : {type : String , required : true, unique : true},
     kccId: { type: String, required: true, unique: true },
     approved: { type: Boolean, default: false },
+    role: { type: String, enum: ["farmer"], default: "farmer" },
   },
   { timestamps: true }
 );

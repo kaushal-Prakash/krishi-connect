@@ -20,10 +20,11 @@ app.use(cookieParser());
 
 const PORT = process.env.PORT || 5000;
 
+
 app.use("/users", userRoutes);
 app.use("/farmers", farmerRoutes);
-app.use("/store", storeRoutes);
 app.use("/admin", adminRoutes);
+app.use("/store", storeRoutes);
 
 app.get("/", (req, res) => {
     res.send("Backend is running...");

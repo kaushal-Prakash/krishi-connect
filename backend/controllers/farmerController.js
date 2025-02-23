@@ -38,7 +38,7 @@ const handleFarmerSignup = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { username: newFarmer.username, id: newFarmer._id },
+      { username: newFarmer.username, id: newFarmer._id,role: newFarmer.role },
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
@@ -73,7 +73,7 @@ const handleFarmerLogin = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { username: farmer.username, id: farmer._id },
+      { username: farmer.username, id: farmer._id , role: farmer.role },
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
@@ -115,7 +115,7 @@ const getFarmerProfile = async (req, res) => {
     }
 
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    const farmer = await Farmer.findById(decodedToken.username).select("-password");
+    const farmer = await Farmer.find({username : decodedToken.username}).select("-password");
 
     if (!farmer) {
       return res.status(404).json({ message: "farmer not found" });
