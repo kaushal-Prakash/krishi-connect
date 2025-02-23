@@ -1,5 +1,5 @@
 import Image from "next/image";
-import "./style.css";
+import "@/styles/pages/landing.css";
 
 export default function home() {
   return (
