@@ -1,5 +1,4 @@
 import Image from "next/image";
-import "@/styles/pages/landing.css";
 
 export default function home() {
   return (
@@ -11,7 +10,7 @@ export default function home() {
       <section className="hero-section h-screen flex flex-col items-center justify-center text-center">
         <h1 className="hero-text-main text-4xl md:text-6xl font-bold text-white">Welcome to Krishi Connect</h1>
         <p className="hero-text-sub mt-4 text-lg md:text-xl text-white font-poppins tracking-widest">Empowering Farmers, Connecting Communities</p>
-        <button className="hero-btn mt-6 px-6 py-3 bg-custom-warm text-white text-lg transition-all duration-300">Get Started</button>
+        <button className="warm-btn mt-6 px-6 py-3 bg-custom-warm text-white text-lg transition-all duration-300">Get Started</button>
       </section>
       
       {/* About Section */}

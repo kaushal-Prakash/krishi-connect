@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+html{
+  /* this define what 1rem is */
+  font-size: 62.5%;
+}
+
 body {
+  padding: ;
   font-family: theme("fontFamily.lato");
 }

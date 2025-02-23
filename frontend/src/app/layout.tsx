@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono,Lato,Poppins } from "next/font/google";
+import { Lato,Poppins } from "next/font/google";
 import "./globals.css";
+import "@/styles/main.scss";
 
 const lato = Lato({
   subsets: ["latin"],
@@ -31,7 +32,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.className} ${lato.className} antialiased p-3 md:p-6 bg-green-50`}
+        className={`${poppins.className} ${lato.className} antialiased`}
       >
         {children}
       </body>

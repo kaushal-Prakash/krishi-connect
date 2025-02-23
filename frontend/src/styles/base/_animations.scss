@@ -1,0 +1,40 @@
+@keyframes toRight {
+  0% {
+    opacity: 0;
+    transform: translateX(-1rem);
+  }
+  80% {
+    opacity: 1;
+    transform: translateX(1rem);
+  }
+  90% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes toLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(10rem);
+  }
+  80% {
+    opacity: 1;
+    transform: translateX(-1rem);
+  }
+  90% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes toUp {
+  0% {
+    opacity: 0;
+    transform: translateY(5rem);
+  }
+  90% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

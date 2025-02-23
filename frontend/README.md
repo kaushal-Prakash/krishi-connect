@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Krishi Connect
 
-## Getting Started
+## 🌱 About Krishi Connect
 
-First, run the development server:
+Krishi Connect is a full-stack web platform designed to empower India's agricultural community by providing a space for farmers, traders, and agritech professionals to connect, share knowledge, and trade agricultural products.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+-   🧑‍🌾 **Farmer Profiles**: Farmers can create profiles to showcase their produce and expertise.
+-   📢 **Discussion Forums**: Engage in conversations about best practices, market trends, and policies.
+-   🛒 **Marketplace**: Buy and sell agricultural products directly within the platform.
+-   🌾 **Weather & Market Updates**: Stay informed with real-time weather reports and commodity prices.
+-   🤝 **Community Support**: Connect with experts, agronomists, and fellow farmers.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🏗 Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+-   **Frontend**: Next.js, Tailwind CSS
+-   **Backend**: Express.js, Node.js
+-   **Database**: MongoDB
+-   **Real-time Communication**: Socket.io
+-   **Hosting & Deployment**: Vercel (Frontend), Render/Heroku (Backend)
 
-## Learn More
+## 📌 Installation & Setup
 
-To learn more about Next.js, take a look at the following resources:
+1.  **Clone the repository**
+    
+    ```bash
+    git clone https://github.com/kaushal-Prakash/krishi-connect.git
+    cd krishi-connect
+    
+    ```
+    
+2.  **Install dependencies**
+    
+    ```bash
+    npm install
+    
+    ```
+    
+3.  **Set up environment variables** Create a `.env` file in the root directory and add the following:
+    
+    ```env
+    MONGO_URI=your_mongodb_connection_string
+    JWT_SECRET=your_jwt_secret
+    NEXT_PUBLIC_API_URL=http://localhost:5000
+    
+    ```
+    
+4.  **Run the backend server**
+    
+    ```bash
+    cd backend
+    npm run dev
+    
+    ```
+    
+5.  **Run the frontend server**
+    
+    ```bash
+    cd frontend
+    npm run dev
+    
+    ```
+    
+6.  Open `http://localhost:3000` in your browser.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🛠 Contribution Guidelines
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1.  Fork the repository.
+2.  Create a new branch: `git checkout -b feature-branch`.
+3.  Commit your changes: `git commit -m "Added new feature"`.
+4.  Push the branch: `git push origin feature-branch`.
+5.  Create a pull request.
 
-## Deploy on Vercel
+## 📄 License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Krishi Connect is open-source and licensed under the MIT License.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📧 Contact
+
+For queries or suggestions, feel free to reach out at [[LinkedIn](https://www.linkedin.com/in/devkaushalprakash/)].
