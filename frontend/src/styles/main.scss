@@ -1,9 +1,13 @@
-@use "./abstracts/functions";
 @use "./abstracts/variables";
+@use "./abstracts/functions";
 
 @use "./base/animations";
+@use "./base/typography";
 
 @use "./components/warm-btn";
+@use "./components/card";
 
 @use "./pages/landing";
+
+@use "./layout/grid";
 

@@ -1,0 +1,10 @@
+@use "../abstracts/variables" as *;
+.font-primary{
+    font-weight: 700;
+    font-size: $font-size-l;
+    color: $custom-green;
+}
+.font-secondary{
+    font-weight: 700;
+    font-size: $font-size-m;
+}
