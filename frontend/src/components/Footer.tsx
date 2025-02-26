@@ -75,7 +75,7 @@ function Footer() {
 
         {/* Footer Bottom */}
         <div className="text-center border-t border-green-600 pt-8">
-          <p>
+          <p className="text-xl">
             &#169; {new Date().getFullYear()} Krishi Connect. All rights
             reserved.
           </p>
