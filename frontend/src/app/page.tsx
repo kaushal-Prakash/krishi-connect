@@ -2,6 +2,7 @@ import Image from "next/image";
 import { MdForum } from "react-icons/md";
 import { GoGraph } from "react-icons/go";
 import { FaPersonChalkboard } from "react-icons/fa6";
+import Footer from "@/components/Footer";
 
 export default function home() {
   return (
@@ -93,6 +94,8 @@ export default function home() {
           </div>
         </div>
       </section>
+
+      <Footer />
     </div>
   );
 }
