@@ -6,6 +6,7 @@ import { FaPersonChalkboard } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
 import Footer from "@/components/Footer";
 import { useEffect } from "react";
+import Navbar from "@/components/Navbar";
 
 export default function home() {
   const router = useRouter();
@@ -39,6 +40,7 @@ export default function home() {
 
   return (
     <div className="bg-green-50 text-gray-900 min-h-screen relative">
+      <Navbar/>
       {/* Hero Section */}
       <div className="logo z-10">
         <Image src="/logo.png" alt="logo" height={80} width={80} />
