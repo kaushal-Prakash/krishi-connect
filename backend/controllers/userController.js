@@ -24,7 +24,7 @@ const handleUserSignup = async (req, res) => {
       email,
       password: hashedPassword,
       phNumber,
-      role: "user", // Default role assigned
+      role: "user", 
     });
 
     if (!newUser) {

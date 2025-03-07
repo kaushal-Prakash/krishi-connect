@@ -3,7 +3,7 @@ import User from "../models/User.js";
 import Farmer from "../models/Farmer.js";
 import Admin from "../models/Admin.js";
 
-const PUBLIC_ROUTES = ["/user-login","/user-signup","/farmer-signup","/farmer-login", "/admin-login",];
+const PUBLIC_ROUTES = ["/user-login","/user-signup","/farmer-signup","/farmer-login", "/admin-login", "/"];
 
 const authenticateUser = async (req, res, next) => {
   try {
@@ -22,6 +22,7 @@ const authenticateUser = async (req, res, next) => {
     if (user) {
       req.user = user;
       req.role = "user";
+      req.user = user;
       return next();
     }
 
@@ -29,6 +30,7 @@ const authenticateUser = async (req, res, next) => {
     if (farmer) {
       req.user = farmer;
       req.role = "farmer";
+      req.user = user;
       return next();
     }
 
@@ -36,6 +38,7 @@ const authenticateUser = async (req, res, next) => {
     if (admin) {
       req.user = admin;
       req.role = "admin";
+      req.user = user;
       return next();
     }
 
