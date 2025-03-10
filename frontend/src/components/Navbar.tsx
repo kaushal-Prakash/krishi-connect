@@ -14,7 +14,9 @@ function Navbar() {
   useEffect(() => {
     const fetchLogedInState = async () => {
       try {
-        const res = await axios.get("/user/is-loged-in");
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users/is-loged-in`, {
+          withCredentials: true
+        });
         if(res.status === 200){
           setIsLogedIn(true);
         }else{
