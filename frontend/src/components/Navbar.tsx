@@ -1,9 +1,10 @@
-import Link from 'next/link';
-import React, { useState } from 'react';
-import { FaBars, FaTimes } from 'react-icons/fa';
+import Link from "next/link";
+import React, { useState } from "react";
+import { FaBars, FaTimes } from "react-icons/fa";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLogedIn, setIsLogedIn] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -20,7 +21,7 @@ function Navbar() {
 
       <div
         className={`fixed inset-0 bg-green-500/50 backdrop-blur-md transform transition-transform duration-300 ease-in-out ${
-          isOpen ? 'translate-x-0' : '-translate-x-full'
+          isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         <nav className="flex items-center justify-center h-full">
@@ -34,51 +35,59 @@ function Navbar() {
                 About Us
               </Link>
             </li>
-            <li>
-              <Link
-                href="/home"
-                className="text-white text-3xl md:text-4xl hover:text-green-200 transition-colors"
-                onClick={toggleMenu}
-              >
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/profile"
-                className="text-white text-3xl md:text-4xl hover:text-green-200 transition-colors"
-                onClick={toggleMenu}
-              >
-                Profile
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/login"
-                className="text-white text-3xl md:text-4xl hover:text-green-200 transition-colors"
-                onClick={toggleMenu}
-              >
-                Login
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/signup"
-                className="text-white text-3xl md:text-4xl hover:text-green-200 transition-colors"
-                onClick={toggleMenu}
-              >
-                Signup
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/market"
-                className="text-white text-3xl md:text-4xl hover:text-green-200 transition-colors"
-                onClick={toggleMenu}
-              >
-                Market
-              </Link>
-            </li>
+            {isLogedIn && (
+              <>
+                <li>
+                  <Link
+                    href="/home"
+                    className="text-white text-3xl md:text-4xl hover:text-green-200 transition-colors"
+                    onClick={toggleMenu}
+                  >
+                    Home
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/profile"
+                    className="text-white text-3xl md:text-4xl hover:text-green-200 transition-colors"
+                    onClick={toggleMenu}
+                  >
+                    Profile
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/market"
+                    className="text-white text-3xl md:text-4xl hover:text-green-200 transition-colors"
+                    onClick={toggleMenu}
+                  >
+                    Market
+                  </Link>
+                </li>
+              </>
+            )}
+            {!isLogedIn && (
+              <>
+                <li>
+                  <Link
+                    href="/login"
+                    className="text-white text-3xl md:text-4xl hover:text-green-200 transition-colors"
+                    onClick={toggleMenu}
+                  >
+                    Login
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/signup"
+                    className="text-white text-3xl md:text-4xl hover:text-green-200 transition-colors"
+                    onClick={toggleMenu}
+                  >
+                    Signup
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </nav>
       </div>

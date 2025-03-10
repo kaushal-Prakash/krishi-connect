@@ -81,6 +81,20 @@ const handleUserLogin = async (req, res) => {
   }
 };
 
+const isLogedIn = async (req,res) => {
+  try{
+    const token = req.cookies?.token;
+    if(token){
+      return res.status(200).json({message : "User is logged in"});
+    }
+
+    return res.status(401).json({message : "User is not logged in"});
+  }
+  catch(error){
+    console.log("Error in checking farmer login status:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
 
 const userLogout = async (req,res) => {
   try {
@@ -134,4 +148,4 @@ const getAllFarmerProducts = async (req, res) => {
   }
 }
 
-export { handleUserSignup, handleUserLogin, getUserProfile,userLogout,getAllFarmerProducts  };
+export { handleUserSignup, handleUserLogin, getUserProfile,userLogout,getAllFarmerProducts, isLogedIn  };
