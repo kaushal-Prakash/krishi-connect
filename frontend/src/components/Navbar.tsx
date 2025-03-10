@@ -1,5 +1,6 @@
+import axios from "axios";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 
 function Navbar() {
@@ -9,6 +10,23 @@ function Navbar() {
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+
+  useEffect(() => {
+    const fetchLogedInState = async () => {
+      try {
+        const res = await axios.get("/user/is-loged-in");
+        if(res.status === 200){
+          setIsLogedIn(true);
+        }else{
+          setIsLogedIn(false);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    fetchLogedInState();
+  }, [])
 
   return (
     <div className="absolute z-50">
