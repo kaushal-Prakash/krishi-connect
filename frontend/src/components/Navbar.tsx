@@ -11,6 +11,19 @@ function Navbar() {
     setIsOpen(!isOpen);
   };
 
+  const handleLogout = async () => {
+    try {
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users/user-logout`, {
+        withCredentials: true
+      });
+      if(res.status === 200){
+        setIsLogedIn(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     const fetchLogedInState = async () => {
       try {
@@ -84,6 +97,17 @@ function Navbar() {
                     Market
                   </Link>
                 </li>
+                <li>
+                  <button
+                    className="text-white text-3xl md:text-4xl hover:text-green-200 transition-colors"
+                    onClick={() => {
+                      toggleMenu();
+                      handleLogout();
+                    }}
+                  >
+                    Logout
+                  </button>
+                </li>
               </>
             )}
             {!isLogedIn && (
@@ -92,7 +116,9 @@ function Navbar() {
                   <Link
                     href="/login"
                     className="text-white text-3xl md:text-4xl hover:text-green-200 transition-colors"
-                    onClick={toggleMenu}
+                    onClick={() => {
+                      toggleMenu();
+                    }}
                   >
                     Login
                   </Link>
