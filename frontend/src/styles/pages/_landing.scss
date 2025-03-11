@@ -2,6 +2,7 @@
 @use "../base/animations" as *;
 @use "../components/warm-btn";
 
+
 .logo {
   position: absolute;
   left: 1rem;
@@ -42,23 +43,23 @@
   animation: toRight 1s ease-out;
   font-weight: bold;
   color: $custom-white;
-  font-size: clamp(2rem, 6vw, 4rem);
-  line-height: 1.2;
+  font-size: clamp(1rem, 6vw, 3rem);
+  line-height: 1.1;
   max-width: 90%;
 
   @media (max-width: 768px) {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
   }
 
   @media (max-width: 480px) {
-    font-size: 2rem;
+    font-size: 1.6rem;
   }
 }
 
 .hero-text-sub {
   animation: toLeft 1s ease-out;
   margin-top: 1rem;
-  font-size: clamp(1rem, 3vw, 1.2rem);
+  font-size: clamp(.8rem, 3vw, 1rem);
   letter-spacing: 3px;
   font-weight: 500;
   color: $custom-white;
@@ -75,9 +76,9 @@
 }
 
 .hero-btn {
-  margin-top: 2.4rem;
+  margin-top: 2rem;
   border-radius: 100px;
-  padding: 1rem 2rem;
+  padding: 0.5rem 1rem; // Smaller padding
   text-transform: uppercase;
   transition: all 0.2s;
   font-weight: bold;
@@ -86,6 +87,7 @@
   position: relative;
   background-color: $custom-warm;
   color: white;
+  font-size: 0.875rem; // Smaller font size (14px)
 
   &:hover {
     transform: translateY(-3px);
@@ -93,8 +95,8 @@
   }
 
   @media (max-width: 480px) {
-    padding: 0.8rem 1.6rem;
-    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem; 
   }
 }
 
