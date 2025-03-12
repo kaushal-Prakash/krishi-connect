@@ -1,32 +1,59 @@
-'use client';
-import React, { useState } from 'react';
+"use client";
+import axios from "axios";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 function Login() {
   // State for form inputs
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false); // Loading state
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const formData = {
-      email,
-      password,
-      rememberMe,
-    };
+    if (!email || !password) {
+      toast.error("Please fill all the fields");
+      return;
+    }
 
-    console.log('Form Data:', formData);
+    if (!process.env.NEXT_PUBLIC_API_URL) {
+      toast.error("API URL is not defined");
+      return;
+    }
 
-    // Example: Send data to backend
-    // fetch('/api/login', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify(formData),
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => console.log('Success:', data))
-    //   .catch((error) => console.error('Error:', error));
+    setIsLoading(true);
+
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/users/user-login`,
+        { email, password },
+        { withCredentials: true }
+      );
+
+      if (res.status === 200) {
+        toast.success("Login Successful");
+        window.location.href = "/user-home"; 
+      } else {
+        toast.error(res.data.message || "Login failed");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          toast.error(error.response.data.message || "An error occurred");
+        } else if (error.request) {
+          toast.error("No response from the server");
+        } else {
+          toast.error("An error occurred while logging in");
+        }
+      } else {
+        toast.error("An unexpected error occurred");
+      }
+    } finally {
+      setIsLoading(false); // Reset loading state
+    }
   };
 
   return (
@@ -67,19 +94,13 @@ function Login() {
             />
           </div>
 
-          {/* Remember Me and Forgot Password */}
-          {/* <div className="flex items-center justify-between">
-            <a href="#" className="text-green-600 text-lg hover:underline">
-              Forgot password?
-            </a>
-          </div> */}
-
           {/* Login Button */}
           <button
             type="submit"
-            className="w-full bg-green-600 text-white py-3 rounded-md hover:bg-green-700 transition duration-300 text-lg"
+            disabled={isLoading} // Disable button while loading
+            className="w-full bg-green-600 text-white py-3 rounded-md hover:bg-green-700 transition duration-300 text-lg disabled:bg-green-300"
           >
-            Login
+            {isLoading ? "Logging in..." : "Login"}
           </button>
         </form>
 
@@ -96,7 +117,7 @@ function Login() {
         {/* Sign Up Link */}
         <div className="mt-8 text-center">
           <p className="text-gray-600 text-lg">
-            Don't have an account?{' '}
+            Don't have an account?{" "}
             <a href="#" className="text-green-600 hover:underline">
               Sign up
             </a>
