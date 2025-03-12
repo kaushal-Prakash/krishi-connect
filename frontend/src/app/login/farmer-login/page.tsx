@@ -4,20 +4,21 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 
-function Login() {
+function FarmerLogin() {
   // State for form inputs
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false); // Loading state
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!email || !password) {
+    if (!username || !password) {
       toast.error("Please fill all the fields");
       return;
     }
 
+    // Check if API URL is defined
     if (!process.env.NEXT_PUBLIC_API_URL) {
       toast.error("API URL is not defined");
       return;
@@ -27,16 +28,16 @@ function Login() {
 
     try {
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/users/user-login`,
-        { email, password },
+        `${process.env.NEXT_PUBLIC_API_URL}/farmers/farmer-login`, 
+        { username, password },
         { withCredentials: true }
       );
 
       if (res.status === 200) {
-        toast.success("Login Successful");
-        window.location.href = "/user-home"; 
+        toast.success("Farmer Login Successful");
+        window.location.href = "/farmer-home"; 
       } else {
-        toast.error(res.data.message || "Login failed");
+        toast.error(res.data.message || "Farmer login failed");
       }
     } catch (error) {
       console.error("Error:", error);
@@ -53,7 +54,7 @@ function Login() {
         toast.error("An unexpected error occurred");
       }
     } finally {
-      setIsLoading(false); // Reset loading state
+      setIsLoading(false); 
     }
   };
 
@@ -61,7 +62,7 @@ function Login() {
     <div className="min-h-screen flex items-center justify-center bg-green-100">
       <div className="bg-white shadow-lg rounded-xl p-8 w-full max-w-md">
         <h2 className="text-3xl font-bold text-green-700 mb-6 text-center">
-          Welcome Back!
+          Farmer Login
         </h2>
 
         <form className="space-y-4" onSubmit={handleSubmit}>
@@ -71,9 +72,9 @@ function Login() {
               Email
             </label>
             <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 text-lg"
               placeholder="Enter your email"
               required
@@ -101,16 +102,22 @@ function Login() {
             disabled={isLoading} // Disable button while loading
             className="w-full bg-green-600 text-white py-3 rounded-md hover:bg-green-700 transition duration-300 text-lg disabled:bg-green-300"
           >
-            {isLoading ? "Logging in..." : "Login"}
+            {isLoading ? "Logging in..." : "Login as Farmer"}
           </button>
         </form>
 
         {/* Additional Login Options */}
         <div className="mt-6 flex justify-between">
-          <Link href="/login/farmer-login" className="text-green-600 border border-green-500 px-6 py-3 rounded-md hover:bg-green-100 transition duration-300 text-lg">
-            Login as Farmer
+          <Link
+            href="/login"
+            className="text-green-600 border border-green-500 px-6 py-3 rounded-md hover:bg-green-100 transition duration-300 text-lg"
+          >
+            Login as User
           </Link>
-          <Link href="/login/admin-login" className="text-green-600 border border-green-500 px-6 py-3 rounded-md hover:bg-green-100 transition duration-300 text-lg">
+          <Link
+            href="/login/admin-login"
+            className="text-green-600 border border-green-500 px-6 py-3 rounded-md hover:bg-green-100 transition duration-300 text-lg"
+          >
             Login as Admin
           </Link>
         </div>
@@ -119,9 +126,9 @@ function Login() {
         <div className="mt-8 text-center">
           <p className="text-gray-600 text-lg">
             Don't have an account?{" "}
-            <a href="#" className="text-green-600 hover:underline">
-              Sign up
-            </a>
+            <Link href="/signup/farmer-signup" className="text-green-600 hover:underline">
+              Sign up as Farmer
+            </Link>
           </p>
         </div>
       </div>
@@ -129,4 +136,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default FarmerLogin;
