@@ -2,6 +2,7 @@ import axios from "axios";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,6 +18,8 @@ function Navbar() {
         withCredentials: true
       });
       if(res.status === 200){
+        localStorage.clear();
+        toast.success("Logout Successful");
         setIsLogedIn(false);
       }
     } catch (error) {

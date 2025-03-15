@@ -34,6 +34,7 @@ function FarmerLogin() {
       );
 
       if (res.status === 200) {
+        localStorage.setItem("role", "farmer");
         toast.success("Farmer Login Successful");
         window.location.href = "/farmer-home"; 
       } else {

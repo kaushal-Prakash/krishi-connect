@@ -8,7 +8,7 @@ function Login() {
   // State for form inputs
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false); // Loading state
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,6 +34,7 @@ function Login() {
 
       if (res.status === 200) {
         toast.success("Login Successful");
+        localStorage.setItem("role","user");
         window.location.href = "/user-home"; 
       } else {
         toast.error(res.data.message || "Login failed");
