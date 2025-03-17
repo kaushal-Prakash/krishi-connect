@@ -1,6 +1,7 @@
 "use client";
 import React from 'react';
 import '@/styles/pages/Forums.scss';
+import Navbar from '@/components/Navbar';
 
 function Forums() {
   const chatrooms = [
@@ -13,6 +14,7 @@ function Forums() {
 
   return (
     <div className="forums-container">
+      <Navbar />
       <h1 className="forums-title font-bold">Farmer's Forum</h1>
       <p className="forums-description font-semibold tracking-wider">Join the conversation and connect with fellow farmers!</p>
       <div className="chatrooms-list">
