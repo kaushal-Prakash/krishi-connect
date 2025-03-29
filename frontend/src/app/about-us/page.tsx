@@ -1,8 +1,11 @@
+"use client"
+import Navbar from '@/components/Navbar';
 import React from 'react';
 
 function About() {
   return (
     <div className="about-container p-8 bg-green-50 rounded-lg shadow-md">
+      <Navbar />
       <h1 className="text-4xl font-bold mb-6 text-center text-green-800">🌱 About Krishi Connect</h1>
       <p className="text-lg mb-6 text-green-700">
         Krishi Connect is a full-stack web platform designed to empower India's agricultural community by providing a space for farmers, traders, and agritech professionals to connect, share knowledge, and trade agricultural products. Developed by <strong className="text-green-900">devShadow</strong>, this platform aims to bridge the gap between technology and agriculture, fostering growth and collaboration in the farming ecosystem.

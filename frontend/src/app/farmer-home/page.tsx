@@ -1,8 +1,10 @@
+"use client"
+import Navbar from '@/components/Navbar'
 import React from 'react'
 
 function Farmer() {
   return (
-    <div>Farmer</div>
+    <div><p>farmer home</p><Navbar/></div>
   )
 }
 
