@@ -7,9 +7,9 @@ function Forums() {
   const chatrooms = [
     { id: 1, name: "Organic Farming Tips", topic: "Discuss organic farming practices and share tips.", link: "/forums/organic-farming" },
     { id: 2, name: "Crop Rotation Strategies", topic: "Learn and share crop rotation techniques.", link: "/forums/crop-rotation" },
-    { id: 3, name: "Livestock Management", topic: "Talk about livestock care and management.", link: "/forums/livestock" },
-    { id: 4, name: "Soil Health & Fertilizers", topic: "Discuss soil health and the best fertilizers to use.", link: "/forums/soil" },
-    { id: 5, name: "Farm Equipment Reviews", topic: "Share reviews and experiences with farm equipment.", link: "/forums/equipments" },
+    { id: 3, name: "Livestock Management", topic: "Talk about livestock care and management.", link: "/forums/livestock-management" },
+    { id: 4, name: "Soil Health & Fertilizers", topic: "Discuss soil health and the best fertilizers to use.", link: "/forums/soil-health" },
+    { id: 5, name: "Farm Equipment Reviews", topic: "Share reviews and experiences with farm equipment.", link: "/forums/farming-equipment" },
   ];
 
   return (

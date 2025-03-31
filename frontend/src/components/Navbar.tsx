@@ -101,6 +101,15 @@ function Navbar() {
                   </Link>
                 </li>
                 <li>
+                  <Link
+                    href="/forums"
+                    className="text-white text-3xl md:text-4xl hover:text-green-200 transition-colors"
+                    onClick={toggleMenu}
+                  >
+                    Forums
+                  </Link>
+                </li>
+                <li>
                   <button
                     className="text-white text-3xl md:text-4xl hover:text-green-200 transition-colors"
                     onClick={() => {

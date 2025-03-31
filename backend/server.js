@@ -28,32 +28,41 @@ const PORT = process.env.PORT || 5000;
 // Create HTTP server
 const server = http.createServer(app);
 
-// Socket.io setup
 const io = new SocketIOServer(server, {
     cors: {
-        origin: "*", 
-        methods: ["GET", "POST"],
-        credentials: true
+      origin: "*", 
+      credentials: true
     }
-});
-
-// Attach io instance to app for use in routes
-app.set("io", io);
+  });
+  
+  // Socket events
+  io.on("connection", (socket) => {
+    console.log("🔌 New connection:", socket.id);
+  
+    socket.on("join_room", (roomId) => {
+      socket.join(roomId);
+      console.log(`🚪 ${socket.id} joined room ${roomId}`);
+    });
+  
+    socket.on("private_message", ({ roomId, message }) => {
+      const messageData = {
+        message,
+        sender: socket.id,
+        timestamp: new Date()
+      };
+      io.to(roomId).emit("private_message", messageData); // Send to ALL in room
+    });
+  
+    socket.on("disconnect", () => {
+      console.log("❌ Disconnected:", socket.id);
+    });
+  });
 
 // Routes
 app.use("/users", userRoutes);
 app.use("/farmers", farmerRoutes);
 app.use("/admin", adminRoutes);
 app.use("/store", storeRoutes);
-
-// Basic connection handler
-io.on('connection', (socket) => {
-    console.log('New client connected:', socket.id);
-    
-    socket.on('disconnect', () => {
-        console.log('Client disconnected:', socket.id);
-    });
-});
 
 app.get("/", (req, res) => {
     res.send("Backend is running...");
